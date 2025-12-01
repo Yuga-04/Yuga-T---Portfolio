@@ -64,8 +64,7 @@ class _AnimatedCardState extends State<AnimatedCard> {
                       color: AppTheme.glassWhite,
                       borderRadius: BorderRadius.circular(20),
                     ),
-                    padding:
-                        widget.padding ?? EdgeInsets.all(isMobile ? 16 : 0),
+                    padding: widget.padding ?? EdgeInsets.all(isMobile ? 0 : 0),
                     child: widget.child,
                   ),
                 ),
