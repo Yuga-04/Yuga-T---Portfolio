@@ -761,7 +761,7 @@ class _HomeScreenState extends State<HomeScreen>
                                 letterSpacing: 1,
                               ),
                             ),
-                            const SizedBox(height: 8),
+                            const SizedBox(height: 4),
                             Icon(
                               Icons.keyboard_arrow_down,
                               color: AppTheme.softWhite.withOpacity(0.6),

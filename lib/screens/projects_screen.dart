@@ -273,6 +273,22 @@ class _ProjectsScreenState extends State<ProjectsScreen>
                             ? TextButton.icon(
                                 key: const ValueKey('showLess'),
                                 onPressed: _toggleShowAll,
+                                style: ButtonStyle(
+                                  overlayColor: WidgetStateProperty.all(
+                                    Colors.white.withOpacity(0.1),
+                                  ),
+                                  foregroundColor:
+                                      WidgetStateProperty.resolveWith((states) {
+                                        if (states.contains(
+                                          WidgetState.hovered,
+                                        )) {
+                                          return Colors.white; // hover color
+                                        }
+                                        return AppTheme.pureWhite.withOpacity(
+                                          0.5,
+                                        );
+                                      }),
+                                ),
                                 icon: Icon(
                                   Icons.keyboard_arrow_up_rounded,
                                   color: AppTheme.pureWhite.withOpacity(0.7),
@@ -280,7 +296,7 @@ class _ProjectsScreenState extends State<ProjectsScreen>
                                 label: Text(
                                   'Show Less',
                                   style: TextStyle(
-                                    fontSize: isMobile ? 12 : 14,
+                                    fontSize: isMobile ? 10 : 12,
                                     color: AppTheme.pureWhite.withOpacity(0.7),
                                     fontWeight: FontWeight.w500,
                                   ),
@@ -289,6 +305,24 @@ class _ProjectsScreenState extends State<ProjectsScreen>
                             : TextButton.icon(
                                 key: const ValueKey('showMore'),
                                 onPressed: _toggleShowAll,
+                                style: ButtonStyle(
+                                  overlayColor: WidgetStateProperty.all(
+                                    Colors.white.withOpacity(
+                                      0.1,
+                                    ), // click/press effect
+                                  ),
+                                  foregroundColor:
+                                      WidgetStateProperty.resolveWith((states) {
+                                        if (states.contains(
+                                          WidgetState.hovered,
+                                        )) {
+                                          return Colors.white; // hover color
+                                        }
+                                        return AppTheme.pureWhite.withOpacity(
+                                          0.5,
+                                        );
+                                      }),
+                                ),
                                 icon: Icon(
                                   Icons.keyboard_arrow_down_rounded,
                                   color: AppTheme.pureWhite.withOpacity(0.7),
@@ -296,7 +330,7 @@ class _ProjectsScreenState extends State<ProjectsScreen>
                                 label: Text(
                                   'Show More +$remainingCount',
                                   style: TextStyle(
-                                    fontSize: isMobile ? 12 : 14,
+                                    fontSize: isMobile ? 10 : 12,
                                     color: AppTheme.pureWhite.withOpacity(0.7),
                                     fontWeight: FontWeight.w500,
                                   ),
@@ -304,7 +338,7 @@ class _ProjectsScreenState extends State<ProjectsScreen>
                               ),
                       ),
                     ),
-                    const SizedBox(height: 40),
+                    const SizedBox(height: 0),
                   ],
                 ),
               ),
