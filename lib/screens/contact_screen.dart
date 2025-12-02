@@ -249,7 +249,7 @@ class _ContactScreenState extends State<ContactScreen>
             child: SingleChildScrollView(
               padding: EdgeInsets.symmetric(
                 horizontal: isMobile ? 20 : 40,
-                vertical: isMobile ? 20 : 30,
+                vertical: isMobile ? 20 : 0,
               ),
               child: IntrinsicHeight(
                 child: Column(
@@ -359,7 +359,7 @@ class _ContactScreenState extends State<ContactScreen>
                   return null;
                 },
               ),
-              SizedBox(height: 14),
+              SizedBox(height: 20),
               Align(
                 alignment: Alignment.centerRight,
                 child: SizedBox(
