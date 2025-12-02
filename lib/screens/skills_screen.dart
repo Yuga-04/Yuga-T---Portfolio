@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:portfolio/theme/app_theme.dart';
-import 'package:flutter_animate/flutter_animate.dart';
 import 'dart:math' as math;
 
 class SkillsScreen extends StatefulWidget {
@@ -12,26 +11,19 @@ class SkillsScreen extends StatefulWidget {
 
 class _SkillsScreenState extends State<SkillsScreen>
     with TickerProviderStateMixin {
-  late AnimationController _controller;
   late AnimationController _backgroundController;
 
   @override
   void initState() {
     super.initState();
-    _controller = AnimationController(
-      vsync: this,
-      duration: Duration(milliseconds: 100),
-    );
     _backgroundController = AnimationController(
       vsync: this,
       duration: Duration(seconds: 15),
     )..repeat();
-    _controller.forward();
   }
 
   @override
   void dispose() {
-    _controller.dispose();
     _backgroundController.dispose();
     super.dispose();
   }
@@ -44,13 +36,10 @@ class _SkillsScreenState extends State<SkillsScreen>
     final isTablet = screenWidth >= 768 && screenWidth < 1024;
 
     final technicalSkills = [
-      // Programming Languages
       {'name': 'Java', 'icon': Icons.code, 'level': 85},
       {'name': 'C', 'icon': Icons.code_outlined, 'level': 70},
       {'name': 'Dart', 'icon': Icons.developer_mode, 'level': 90},
       {'name': 'Python', 'icon': Icons.terminal, 'level': 40},
-
-      // Web Technologies
       {'name': 'HTML', 'icon': Icons.html, 'level': 95},
       {'name': 'CSS', 'icon': Icons.css, 'level': 90},
       {'name': 'JavaScript', 'icon': Icons.javascript, 'level': 80},
@@ -101,7 +90,6 @@ class _SkillsScreenState extends State<SkillsScreen>
               },
             ),
           ),
-
           // Main Content
           Container(
             width: screenWidth,
@@ -138,7 +126,6 @@ class _SkillsScreenState extends State<SkillsScreen>
                     ),
                   ),
                   SizedBox(height: isMobile ? 10 : 30),
-
                   // Main Content Grid
                   Expanded(
                     child: isMobile
@@ -166,41 +153,39 @@ class _SkillsScreenState extends State<SkillsScreen>
                             ),
                           )
                         : Row(
-                            crossAxisAlignment: CrossAxisAlignment.stretch,
+                            crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               // Left Column
                               Expanded(
                                 flex: 1,
-                                child: Column(
-                                  children: [
-                                    Expanded(
-                                      child: _buildFrameworksTools(
+                                child: SingleChildScrollView(
+                                  child: Column(
+                                    children: [
+                                      _buildFrameworksTools(
                                         frameworks,
                                         isMobile,
                                         isTablet,
                                       ),
-                                    ),
-                                    SizedBox(height: 16),
-                                    Expanded(
-                                      child: _buildSoftSkills(
+                                      SizedBox(height: 16),
+                                      _buildSoftSkills(
                                         softSkills,
                                         isMobile,
                                         isTablet,
                                       ),
-                                    ),
-                                  ],
+                                    ],
+                                  ),
                                 ),
                               ),
-
                               SizedBox(width: 16),
-
                               // Right Column
                               Expanded(
                                 flex: 1,
-                                child: _buildProgrammingLanguages(
-                                  technicalSkills,
-                                  isMobile,
-                                  isTablet,
+                                child: SingleChildScrollView(
+                                  child: _buildProgrammingLanguages(
+                                    technicalSkills,
+                                    isMobile,
+                                    isTablet,
+                                  ),
                                 ),
                               ),
                             ],
@@ -221,58 +206,49 @@ class _SkillsScreenState extends State<SkillsScreen>
     bool isTablet,
   ) {
     return Container(
-          padding: EdgeInsets.all(isMobile ? 16 : 24),
-          decoration: BoxDecoration(
-            color: AppTheme.deepBlack.withOpacity(0.7),
-            borderRadius: BorderRadius.circular(12),
-            border: Border.all(color: AppTheme.borderWhite, width: 1.5),
+      padding: EdgeInsets.all(isMobile ? 16 : 24),
+      decoration: BoxDecoration(
+        color: AppTheme.deepBlack.withOpacity(0.7),
+        borderRadius: BorderRadius.circular(12),
+        border: Border.all(color: AppTheme.borderWhite, width: 1.5),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Text(
+            'PROGRAMMING LANGUAGES / WEB TECHNOLOGIES',
+            style: TextStyle(
+              fontSize: isMobile ? 12 : 14,
+              fontWeight: FontWeight.bold,
+              color: AppTheme.pureWhite,
+              letterSpacing: 1,
+            ),
           ),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Text(
-                    'PROGRAMMING LANGUAGES / WEB TECHNOLOGIES',
-                    style: TextStyle(
-                      fontSize: isMobile ? 12 : 14,
-                      fontWeight: FontWeight.bold,
-                      color: AppTheme.pureWhite,
-                      letterSpacing: 1,
-                    ),
-                  )
-                  .animate(onPlay: (controller) => controller.forward(from: 0))
-                  .fadeIn(duration: 500.ms, delay: 150.ms)
-                  .slideX(begin: -0.2, end: 0),
-
-              SizedBox(height: isMobile ? 16 : 20),
-
-              GridView.builder(
-                shrinkWrap: true,
-                physics: NeverScrollableScrollPhysics(),
-                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: isMobile ? 2 : 4,
-                  crossAxisSpacing: isMobile ? 12 : 10,
-                  mainAxisSpacing: isMobile ? 12 : 20,
-                  childAspectRatio: 1.0,
-                ),
-                itemCount: skills.length,
-                itemBuilder: (context, index) {
-                  final skill = skills[index];
-                  return _buildCircularSkill(
-                    icon: skill['icon'] as IconData,
-                    name: skill['name'] as String,
-                    level: skill['level'] as int,
-                    isMobile: isMobile,
-                    delay: 300 + (index * 80),
-                  );
-                },
-              ),
-            ],
+          SizedBox(height: isMobile ? 16 : 20),
+          GridView.builder(
+            shrinkWrap: true,
+            physics: NeverScrollableScrollPhysics(),
+            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+              crossAxisCount: isMobile ? 2 : 4,
+              crossAxisSpacing: isMobile ? 12 : 10,
+              mainAxisSpacing: isMobile ? 12 : 20,
+              childAspectRatio: 1.0,
+            ),
+            itemCount: skills.length,
+            itemBuilder: (context, index) {
+              final skill = skills[index];
+              return _buildCircularSkill(
+                icon: skill['icon'] as IconData,
+                name: skill['name'] as String,
+                level: skill['level'] as int,
+                isMobile: isMobile,
+              );
+            },
           ),
-        )
-        .animate(onPlay: (controller) => controller.forward(from: 0))
-        .fadeIn(duration: 600.ms, delay: 100.ms)
-        .scale(begin: Offset(0.95, 0.95), end: Offset(1, 1));
+        ],
+      ),
+    );
   }
 
   Widget _buildCircularSkill({
@@ -280,7 +256,6 @@ class _SkillsScreenState extends State<SkillsScreen>
     required String name,
     required int level,
     required bool isMobile,
-    required int delay,
   }) {
     final size = isMobile ? 50.0 : 70.0;
     final iconSize = isMobile ? 22.0 : 28.0;
@@ -296,65 +271,45 @@ class _SkillsScreenState extends State<SkillsScreen>
           child: Stack(
             alignment: Alignment.center,
             children: [
-              // Animated circular progress
               TweenAnimationBuilder<double>(
-                    duration: Duration(milliseconds: 1500),
-                    curve: Curves.easeOutCubic,
-                    tween: Tween(begin: 0.0, end: level / 100),
-                    builder: (context, value, child) {
-                      return CustomPaint(
-                        size: Size(size, size),
-                        painter: CircularProgressPainter(
-                          progress: value,
-                          strokeWidth: 3.0,
-                          backgroundColor: AppTheme.borderWhite.withOpacity(
-                            0.2,
-                          ),
-                          progressColor: AppTheme.pureWhite,
-                        ),
-                      );
-                    },
-                  )
-                  .animate(onPlay: (controller) => controller.forward(from: 0))
-                  .fadeIn(duration: 400.ms, delay: delay.ms)
-                  .scale(
-                    begin: Offset(0.5, 0.5),
-                    end: Offset(1.0, 1.0),
-                    duration: 500.ms,
-                    delay: delay.ms,
-                  ),
-
-              // Icon
-              Icon(icon, color: AppTheme.pureWhite, size: iconSize)
-                  .animate(onPlay: (controller) => controller.forward(from: 0))
-                  .fadeIn(duration: 400.ms, delay: (delay + 300).ms)
-                  .scale(begin: Offset(0, 0), end: Offset(1, 1)),
+                duration: Duration(milliseconds: 1500),
+                curve: Curves.easeOutCubic,
+                tween: Tween(begin: 0.0, end: level / 100),
+                builder: (context, value, child) {
+                  return CustomPaint(
+                    size: Size(size, size),
+                    painter: CircularProgressPainter(
+                      progress: value,
+                      strokeWidth: 3.0,
+                      backgroundColor: AppTheme.borderWhite.withOpacity(0.2),
+                      progressColor: AppTheme.pureWhite,
+                    ),
+                  );
+                },
+              ),
+              Icon(icon, color: AppTheme.pureWhite, size: iconSize),
             ],
           ),
         ),
         SizedBox(height: 6),
         Text(
-              name,
-              style: TextStyle(
-                fontSize: fontSize,
-                fontWeight: FontWeight.w600,
-                color: AppTheme.pureWhite,
-              ),
-              textAlign: TextAlign.center,
-            )
-            .animate(onPlay: (controller) => controller.forward(from: 0))
-            .fadeIn(duration: 400.ms, delay: (delay + 400).ms),
+          name,
+          style: TextStyle(
+            fontSize: fontSize,
+            fontWeight: FontWeight.w600,
+            color: AppTheme.pureWhite,
+          ),
+          textAlign: TextAlign.center,
+        ),
         SizedBox(height: 2),
         Text(
-              '$level%',
-              style: TextStyle(
-                fontSize: percentSize,
-                fontWeight: FontWeight.bold,
-                color: AppTheme.pureWhite,
-              ),
-            )
-            .animate(onPlay: (controller) => controller.forward(from: 0))
-            .fadeIn(duration: 400.ms, delay: (delay + 500).ms),
+          '$level%',
+          style: TextStyle(
+            fontSize: percentSize,
+            fontWeight: FontWeight.bold,
+            color: AppTheme.pureWhite,
+          ),
+        ),
       ],
     );
   }
@@ -365,161 +320,133 @@ class _SkillsScreenState extends State<SkillsScreen>
     bool isTablet,
   ) {
     return Container(
-          padding: EdgeInsets.all(isMobile ? 16 : 24),
-          decoration: BoxDecoration(
-            color: AppTheme.deepBlack.withOpacity(0.7),
-            borderRadius: BorderRadius.circular(12),
-            border: Border.all(color: AppTheme.borderWhite, width: 1.5),
+      padding: EdgeInsets.all(isMobile ? 16 : 24),
+      decoration: BoxDecoration(
+        color: AppTheme.deepBlack.withOpacity(0.7),
+        borderRadius: BorderRadius.circular(12),
+        border: Border.all(color: AppTheme.borderWhite, width: 1.5),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Text(
+            'FRAMEWORKS / TOOLS',
+            style: TextStyle(
+              fontSize: isMobile ? 12 : 14,
+              fontWeight: FontWeight.bold,
+              color: AppTheme.pureWhite,
+              letterSpacing: 1,
+            ),
           ),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Text(
-                    'FRAMEWORKS / TOOLS',
-                    style: TextStyle(
-                      fontSize: isMobile ? 12 : 14,
-                      fontWeight: FontWeight.bold,
-                      color: AppTheme.pureWhite,
-                      letterSpacing: 1,
-                    ),
-                  )
-                  .animate(onPlay: (controller) => controller.forward(from: 0))
-                  .fadeIn(duration: 500.ms, delay: 250.ms)
-                  .slideX(begin: -0.2, end: 0),
-
-              SizedBox(height: isMobile ? 16 : 20),
-
-              Wrap(
-                spacing: isMobile ? 8 : 10,
-                runSpacing: isMobile ? 8 : 10,
-                children: frameworks.asMap().entries.map((entry) {
-                  final index = entry.key;
-                  final framework = entry.value;
-                  return _buildFrameworkChip(
-                    icon: framework['icon'] as IconData,
-                    name: framework['name'] as String,
-                    isMobile: isMobile,
-                    delay: 450 + (index * 60),
-                  );
-                }).toList(),
-              ),
-            ],
+          SizedBox(height: isMobile ? 16 : 20),
+          Wrap(
+            spacing: isMobile ? 8 : 10,
+            runSpacing: isMobile ? 8 : 10,
+            children: frameworks.asMap().entries.map((entry) {
+              // final index = entry.key;
+              final framework = entry.value;
+              return _buildFrameworkChip(
+                icon: framework['icon'] as IconData,
+                name: framework['name'] as String,
+                isMobile: isMobile,
+              );
+            }).toList(),
           ),
-        )
-        .animate(onPlay: (controller) => controller.forward(from: 0))
-        .fadeIn(duration: 600.ms, delay: 200.ms)
-        .scale(begin: Offset(0.95, 0.95), end: Offset(1, 1));
+        ],
+      ),
+    );
   }
 
   Widget _buildFrameworkChip({
     required IconData icon,
     required String name,
     required bool isMobile,
-    required int delay,
   }) {
     return Container(
-          padding: EdgeInsets.symmetric(
-            horizontal: isMobile ? 10 : 14,
-            vertical: isMobile ? 6 : 8,
-          ),
-          decoration: BoxDecoration(
-            color: AppTheme.deepBlack,
-            borderRadius: BorderRadius.circular(6),
-            border: Border.all(color: AppTheme.borderWhite, width: 1),
-          ),
-          child: Row(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Icon(icon, color: AppTheme.pureWhite, size: isMobile ? 14 : 16),
-              SizedBox(width: 6),
-              Text(
-                name,
-                style: TextStyle(
-                  color: AppTheme.pureWhite,
-                  fontSize: isMobile ? 11 : 13,
-                  fontWeight: FontWeight.w500,
-                ),
-              ),
-            ],
-          ),
-        )
-        .animate(onPlay: (controller) => controller.forward(from: 0))
-        .fadeIn(duration: 400.ms, delay: delay.ms)
-        .slideY(begin: 0.3, end: 0);
-  }
-
-  Widget _buildSoftSkills(List<String> skills, bool isMobile, bool isTablet) {
-    return Container(
-          padding: EdgeInsets.all(isMobile ? 16 : 24),
-          decoration: BoxDecoration(
-            color: AppTheme.deepBlack.withOpacity(0.7),
-            borderRadius: BorderRadius.circular(12),
-            border: Border.all(color: AppTheme.borderWhite, width: 1.5),
-          ),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Text(
-                    'SOFT SKILLS',
-                    style: TextStyle(
-                      fontSize: isMobile ? 12 : 14,
-                      fontWeight: FontWeight.bold,
-                      color: AppTheme.pureWhite,
-                      letterSpacing: 1,
-                    ),
-                  )
-                  .animate(onPlay: (controller) => controller.forward(from: 0))
-                  .fadeIn(duration: 500.ms, delay: 350.ms)
-                  .slideX(begin: -0.2, end: 0),
-
-              SizedBox(height: isMobile ? 14 : 18),
-
-              Wrap(
-                spacing: isMobile ? 8 : 10,
-                runSpacing: isMobile ? 8 : 10,
-                children: skills.asMap().entries.map((entry) {
-                  final index = entry.key;
-                  final skill = entry.value;
-                  return _buildSoftSkillChip(
-                    skill,
-                    isMobile,
-                    550 + (index * 60),
-                  );
-                }).toList(),
-              ),
-            ],
-          ),
-        )
-        .animate(onPlay: (controller) => controller.forward(from: 0))
-        .fadeIn(duration: 600.ms, delay: 300.ms)
-        .scale(begin: Offset(0.95, 0.95), end: Offset(1, 1));
-  }
-
-  Widget _buildSoftSkillChip(String skill, bool isMobile, int delay) {
-    return Container(
-          padding: EdgeInsets.symmetric(
-            horizontal: isMobile ? 12 : 16,
-            vertical: isMobile ? 8 : 8,
-          ),
-          decoration: BoxDecoration(
-            color: AppTheme.deepBlack,
-            borderRadius: BorderRadius.circular(16),
-            border: Border.all(color: AppTheme.borderWhite, width: 1),
-          ),
-          child: Text(
-            skill,
+      padding: EdgeInsets.symmetric(
+        horizontal: isMobile ? 10 : 14,
+        vertical: isMobile ? 6 : 8,
+      ),
+      decoration: BoxDecoration(
+        color: AppTheme.deepBlack,
+        borderRadius: BorderRadius.circular(6),
+        border: Border.all(color: AppTheme.borderWhite, width: 1),
+      ),
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Icon(icon, color: AppTheme.pureWhite, size: isMobile ? 14 : 16),
+          SizedBox(width: 6),
+          Text(
+            name,
             style: TextStyle(
               color: AppTheme.pureWhite,
               fontSize: isMobile ? 11 : 13,
               fontWeight: FontWeight.w500,
             ),
           ),
-        )
-        .animate(onPlay: (controller) => controller.forward(from: 0))
-        .fadeIn(duration: 400.ms, delay: delay.ms)
-        .slideY(begin: 0.3, end: 0);
+        ],
+      ),
+    );
+  }
+
+  Widget _buildSoftSkills(List<String> skills, bool isMobile, bool isTablet) {
+    return Container(
+      padding: EdgeInsets.all(isMobile ? 16 : 24),
+      decoration: BoxDecoration(
+        color: AppTheme.deepBlack.withOpacity(0.7),
+        borderRadius: BorderRadius.circular(12),
+        border: Border.all(color: AppTheme.borderWhite, width: 1.5),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Text(
+            'SOFT SKILLS',
+            style: TextStyle(
+              fontSize: isMobile ? 12 : 14,
+              fontWeight: FontWeight.bold,
+              color: AppTheme.pureWhite,
+              letterSpacing: 1,
+            ),
+          ),
+          SizedBox(height: isMobile ? 14 : 18),
+          Wrap(
+            spacing: isMobile ? 8 : 10,
+            runSpacing: isMobile ? 8 : 10,
+            children: skills.asMap().entries.map((entry) {
+              // final index = entry.key;
+              final skill = entry.value;
+              return _buildSoftSkillChip(skill, isMobile);
+            }).toList(),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildSoftSkillChip(String skill, bool isMobile) {
+    return Container(
+      padding: EdgeInsets.symmetric(
+        horizontal: isMobile ? 12 : 16,
+        vertical: isMobile ? 8 : 8,
+      ),
+      decoration: BoxDecoration(
+        color: AppTheme.deepBlack,
+        borderRadius: BorderRadius.circular(16),
+        border: Border.all(color: AppTheme.borderWhite, width: 1),
+      ),
+      child: Text(
+        skill,
+        style: TextStyle(
+          color: AppTheme.pureWhite,
+          fontSize: isMobile ? 11 : 13,
+          fontWeight: FontWeight.w500,
+        ),
+      ),
+    );
   }
 }
 
@@ -538,6 +465,7 @@ class GeometricBackgroundPainter extends CustomPainter {
         end: Alignment.bottomRight,
         colors: [Color(0xFF000000), Color(0xFF0a0a0a), Color(0xFF000000)],
       ).createShader(Rect.fromLTWH(0, 0, size.width, size.height));
+
     canvas.drawRect(
       Rect.fromLTWH(0, 0, size.width, size.height),
       gradientPaint,
@@ -557,11 +485,9 @@ class GeometricBackgroundPainter extends CustomPainter {
     for (int i = 0; i < lineCount; i++) {
       final offset = (animationValue * size.width * 0.3);
       final startY = (size.height / lineCount) * i;
-
       final path = Path();
       path.moveTo(-100 + offset, startY);
       path.lineTo(size.width * 0.4 + offset, startY + size.height * 0.3);
-
       canvas.drawPath(path, linePaint);
     }
 
@@ -569,14 +495,12 @@ class GeometricBackgroundPainter extends CustomPainter {
     final dotSpacing = 80.0;
     final cols = (size.width / dotSpacing).ceil();
     final rows = (size.height / dotSpacing).ceil();
-
     for (int col = 0; col < cols; col++) {
       for (int row = 0; row < rows; row++) {
         final x =
             col * dotSpacing + (animationValue * 20 * math.sin(row * 0.5));
         final y =
             row * dotSpacing + (animationValue * 20 * math.cos(col * 0.5));
-
         final pulseSize =
             2.0 + math.sin(animationValue * 2 * math.pi + col + row) * 1.0;
         canvas.drawCircle(Offset(x, y), pulseSize, dotPaint);
@@ -617,16 +541,13 @@ class GeometricBackgroundPainter extends CustomPainter {
     final connectionPaint = Paint()
       ..color = Colors.white.withOpacity(0.05)
       ..strokeWidth = 1.0;
-
     for (int i = 0; i < 10; i++) {
       final angle1 = animationValue * 2 * math.pi + i * 0.6;
       final angle2 = animationValue * 2 * math.pi + i * 0.8;
-
       final x1 = size.width * 0.5 + math.cos(angle1) * size.width * 0.3;
       final y1 = size.height * 0.5 + math.sin(angle1) * size.height * 0.3;
       final x2 = size.width * 0.5 + math.cos(angle2) * size.width * 0.25;
       final y2 = size.height * 0.5 + math.sin(angle2) * size.height * 0.25;
-
       canvas.drawLine(Offset(x1, y1), Offset(x2, y2), connectionPaint);
     }
   }
@@ -660,7 +581,6 @@ class CircularProgressPainter extends CustomPainter {
       ..color = backgroundColor
       ..style = PaintingStyle.stroke
       ..strokeWidth = strokeWidth;
-
     canvas.drawCircle(center, radius, backgroundPaint);
 
     // Progress arc
@@ -671,7 +591,6 @@ class CircularProgressPainter extends CustomPainter {
       ..strokeCap = StrokeCap.round;
 
     final sweepAngle = 2 * math.pi * progress;
-
     if (sweepAngle > 0) {
       canvas.drawArc(
         Rect.fromCircle(center: center, radius: radius),
