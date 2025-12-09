@@ -124,7 +124,7 @@ class _SkillsScreenState extends State<SkillsScreen>
                   Text(
                     'Skill & Expertise',
                     style: TextStyle(
-                      fontSize: isMobile ? 28 : 40,
+                      fontSize: isMobile ? 28 : 35,
                       fontWeight: FontWeight.bold,
                       color: Colors.white,
                     ),

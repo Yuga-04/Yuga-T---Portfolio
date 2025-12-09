@@ -1327,7 +1327,7 @@ class AboutScreen extends StatelessWidget {
           'About Me',
           textAlign: TextAlign.center,
           style: TextStyle(
-            fontSize: isDesktop ? 48 : 32,
+            fontSize: isDesktop ? 35 : 28,
             fontWeight: FontWeight.bold,
             color: Colors.white,
             letterSpacing: -1,
@@ -1339,9 +1339,9 @@ class AboutScreen extends StatelessWidget {
           "Build. Break. Learn. Repeat.",
           textAlign: TextAlign.center,
           style: TextStyle(
-            fontSize: isDesktop ? 16 : 14,
+            fontSize: isDesktop ? 15 : 14,
             color: Colors.white.withOpacity(0.7),
-            fontStyle: FontStyle.italic,
+            // fontStyle: FontStyle.italic,
             letterSpacing: 0.5,
           ),
         ),

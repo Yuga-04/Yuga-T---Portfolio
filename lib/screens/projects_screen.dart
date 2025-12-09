@@ -205,7 +205,7 @@ class _ProjectsScreenState extends State<ProjectsScreen>
                       'Featured Projects',
                       textAlign: TextAlign.center,
                       style: TextStyle(
-                        fontSize: isMobile ? 28 : 40,
+                        fontSize: isMobile ? 28 : 35,
                         fontWeight: FontWeight.bold,
                         color: Colors.white,
                         height: 1.2,

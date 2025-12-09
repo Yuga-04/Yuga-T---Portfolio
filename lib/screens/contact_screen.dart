@@ -277,7 +277,7 @@ class _ContactScreenState extends State<ContactScreen>
         Text(
           'Let\'s Connect',
           style: GoogleFonts.inter(
-            fontSize: isMobile ? 28 : 36,
+            fontSize: isMobile ? 28 : 35,
             fontWeight: FontWeight.bold,
             color: Colors.white,
             height: 1.2,

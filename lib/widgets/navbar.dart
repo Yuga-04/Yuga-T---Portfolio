@@ -109,11 +109,7 @@ class _NavBarState extends State<NavBar> with SingleTickerProviderStateMixin {
       {'index': 1, 'label': 'Skills', 'icon': Icons.code_rounded},
       {'index': 2, 'label': 'Projects', 'icon': Icons.work_rounded},
       {'index': 3, 'label': 'About', 'icon': Icons.person_rounded},
-      {
-        'index': 4,
-        'label': 'Certificates',
-        'icon': Icons.card_membership_rounded,
-      },
+
       {'index': 6, 'label': 'Contact', 'icon': Icons.contact_mail_rounded},
     ];
 
@@ -145,11 +141,6 @@ class _NavBarState extends State<NavBar> with SingleTickerProviderStateMixin {
       {'index': 1, 'label': 'Skills', 'icon': Icons.code_rounded},
       {'index': 2, 'label': 'Projects', 'icon': Icons.work_rounded},
       {'index': 3, 'label': 'About', 'icon': Icons.person_rounded},
-      {
-        'index': 4,
-        'label': 'Certificates',
-        'icon': Icons.card_membership_rounded,
-      },
       {'index': 6, 'label': 'Contact', 'icon': Icons.contact_mail_rounded},
     ];
 
@@ -335,11 +326,6 @@ class _NavBarState extends State<NavBar> with SingleTickerProviderStateMixin {
       {'index': 1, 'label': 'Skills', 'icon': Icons.code_rounded},
       {'index': 2, 'label': 'Projects', 'icon': Icons.work_rounded},
       {'index': 3, 'label': 'About', 'icon': Icons.person_rounded},
-      {
-        'index': 4,
-        'label': 'Certificates',
-        'icon': Icons.card_membership_rounded,
-      },
       {'index': 6, 'label': 'Contact', 'icon': Icons.contact_mail_rounded},
     ];
 

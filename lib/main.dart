@@ -8,7 +8,7 @@ import 'screens/skills_screen.dart';
 import 'screens/projects_screen.dart';
 import 'screens/about_screen.dart';
 import 'screens/contact_screen.dart';
-import 'screens/certificates_screen.dart';
+
 
 void main() {
   runApp(const PortfolioApp());
@@ -188,7 +188,6 @@ class _PortfolioHomeState extends State<PortfolioHome> {
                     3,
                     AboutScreen(onInnerHoverChanged: _onInnerHoverChanged),
                   ),
-                  _buildSection(4, const CertificatesScreen()),
                   _buildSection(6, const ContactScreen()),
                 ],
               ),
