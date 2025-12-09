@@ -1,3 +1,4 @@
+// lib/main.dart
 import 'package:flutter/material.dart';
 import 'package:portfolio/theme/app_theme.dart';
 import 'package:portfolio/widgets/navbar.dart';
@@ -43,6 +44,9 @@ class _PortfolioHomeState extends State<PortfolioHome> {
 
   bool _isScrollingProgrammatically = false;
   final GlobalKey _navBarKey = GlobalKey();
+
+  // NEW: whether page (outer) scrolling is enabled. When false, outer scrolling is disabled.
+  bool _outerScrollEnabled = true;
 
   @override
   void initState() {
@@ -147,6 +151,15 @@ class _PortfolioHomeState extends State<PortfolioHome> {
     super.dispose();
   }
 
+  // NEW: callback passed into AboutScreen so inner cards can notify when hovered
+  void _onInnerHoverChanged(bool hovering) {
+    if (mounted) {
+      setState(() {
+        _outerScrollEnabled = !hovering;
+      });
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -161,14 +174,20 @@ class _PortfolioHomeState extends State<PortfolioHome> {
           Expanded(
             child: SingleChildScrollView(
               controller: _scrollController,
-              physics: const ClampingScrollPhysics(),
+              physics: _outerScrollEnabled
+                  ? const ClampingScrollPhysics()
+                  : const NeverScrollableScrollPhysics(),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
                   _buildSection(0, HomeScreen(onNavigate: scrollTo)),
                   _buildSection(1, const SkillsScreen()),
                   _buildSection(2, const ProjectsScreen()),
-                  _buildSection(3, const AboutScreen()),
+                  // Pass the hover callback to AboutScreen
+                  _buildSection(
+                    3,
+                    AboutScreen(onInnerHoverChanged: _onInnerHoverChanged),
+                  ),
                   _buildSection(4, const CertificatesScreen()),
                   _buildSection(6, const ContactScreen()),
                 ],

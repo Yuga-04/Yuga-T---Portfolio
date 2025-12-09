@@ -497,8 +497,7 @@ class _HomeScreenState extends State<HomeScreen>
                                 "assets/download.svg",
                                 width: 28,
                               ),
-                              url:
-                                  "https://drive.google.com/file/d/1Oz5hHELK67EPOx-ODZ8gnzSsr4cYxgxH/view?usp=sharing",
+                              url: "https://yuga-04.github.io/Yuga-04/",
                               isMobile: isMobile,
                               isTablet: isTablet,
                             )

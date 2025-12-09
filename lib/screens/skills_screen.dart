@@ -60,15 +60,15 @@ class _SkillsScreenState extends State<SkillsScreen>
   }
 
   @override
-  @override
   Widget build(BuildContext context) {
     final screenWidth = MediaQuery.of(context).size.width;
-    final screenHeight = MediaQuery.of(context).size.height - 65;
+    final screenHeight = MediaQuery.of(context).size.height;
     final isMobile = screenWidth < 750;
     final isTablet = screenWidth >= 750 && screenWidth < 1100;
 
     return SizedBox(
       width: screenWidth,
+      height: screenHeight,
       child: Stack(
         children: [
           /// 🔥 Animated Background
@@ -107,48 +107,51 @@ class _SkillsScreenState extends State<SkillsScreen>
             ),
           ),
 
-          /// 📌 Scroll content
+          /// 📌 Content
           SafeArea(
-            child: SingleChildScrollView(
-              physics: const BouncingScrollPhysics(),
-              child: ConstrainedBox(
-                constraints: BoxConstraints(minHeight: screenHeight),
-                child: Padding(
-                  padding: EdgeInsets.symmetric(
-                    horizontal: isMobile
-                        ? 20
-                        : isTablet
-                        ? 40
-                        : 80,
-                    vertical: isMobile ? 30 : 30,
+            child: Padding(
+              padding: EdgeInsets.symmetric(
+                horizontal: isMobile
+                    ? 20
+                    : isTablet
+                    ? 40
+                    : 80,
+                vertical: isMobile ? 30 : 40,
+              ),
+              child: Column(
+                children: [
+                  // --- Header ---
+                  Text(
+                    'Skill & Expertise',
+                    style: TextStyle(
+                      fontSize: isMobile ? 28 : 40,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.white,
+                    ),
+                    textAlign: TextAlign.center,
                   ),
-                  child: Column(
-                    children: [
-                      // --- Header + UI ---
-                      Text(
-                        'Skill & Expertise',
-                        style: TextStyle(
-                          fontSize: isMobile ? 28 : 40,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.white,
-                        ),
-                        textAlign: TextAlign.center,
-                      ),
-                      const SizedBox(height: 6),
-                      Text(
-                        'Technologies, traits & tools I master',
-                        style: TextStyle(
-                          fontSize: isMobile ? 13 : 15,
-                          color: Colors.white70,
-                        ),
-                        textAlign: TextAlign.center,
-                      ),
-                      const SizedBox(height: 40),
+                  const SizedBox(height: 6),
+                  Text(
+                    'Technologies, traits & tools I master',
+                    style: TextStyle(
+                      fontSize: isMobile ? 13 : 15,
+                      color: Colors.white70,
+                    ),
+                    textAlign: TextAlign.center,
+                  ),
 
-                      isMobile ? _mobileLayout() : _desktopLayout(screenHeight),
-                    ],
+                  // --- Centered Content ---
+                  Expanded(
+                    child: Center(
+                      child: SingleChildScrollView(
+                        physics: const BouncingScrollPhysics(),
+                        child: isMobile
+                            ? _mobileLayout()
+                            : _desktopLayout(screenHeight),
+                      ),
+                    ),
                   ),
-                ),
+                ],
               ),
             ),
           ),
@@ -159,51 +162,51 @@ class _SkillsScreenState extends State<SkillsScreen>
 
   /// ====== DESKTOP VIEW ======
   Widget _desktopLayout(double screenHeight) {
-    return SizedBox(
-      // height: screenHeight - 200,
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                _title("=> Technical Skills"),
-                const SizedBox(height: 20),
-                ...technicalSkills.map(_progress),
-              ],
-            ),
+    return Row(
+      crossAxisAlignment: CrossAxisAlignment.center,
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        Expanded(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              _title("=> Technical Skills"),
+              const SizedBox(height: 20),
+              ...technicalSkills.map(_progress),
+            ],
           ),
-          Container(
-            width: 1,
-            margin: const EdgeInsets.symmetric(horizontal: 50),
-            height: screenHeight / 2 - 10,
-            color: Colors.white24,
+        ),
+        Container(
+          width: 1,
+          margin: const EdgeInsets.symmetric(horizontal: 50),
+          height: 300,
+          color: Colors.white24,
+        ),
+        Expanded(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              _title("=> Tools & Platforms"),
+              const SizedBox(height: 15),
+              Wrap(
+                spacing: 10,
+                runSpacing: 10,
+                children: tools.map(_chip).toList(),
+              ),
+              const SizedBox(height: 30),
+              _title("=> Soft Skills"),
+              const SizedBox(height: 15),
+              Wrap(
+                spacing: 10,
+                runSpacing: 10,
+                children: softSkills.map(_chip).toList(),
+              ),
+            ],
           ),
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                _title("=> Tools & Platforms"),
-                const SizedBox(height: 15),
-                Wrap(
-                  spacing: 10,
-                  runSpacing: 10,
-                  children: tools.map(_chip).toList(),
-                ),
-                const SizedBox(height: 30),
-                _title("=> Soft Skills"),
-                const SizedBox(height: 15),
-                Wrap(
-                  spacing: 10,
-                  runSpacing: 10,
-                  children: softSkills.map(_chip).toList(),
-                ),
-              ],
-            ),
-          ),
-        ],
-      ),
+        ),
+      ],
     );
   }
 
@@ -211,6 +214,7 @@ class _SkillsScreenState extends State<SkillsScreen>
   Widget _mobileLayout() {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
+      mainAxisSize: MainAxisSize.min,
       children: [
         _title("Technical Skills"),
         const SizedBox(height: 18),
