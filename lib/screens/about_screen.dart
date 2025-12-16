@@ -591,10 +591,13 @@ class AboutScreen extends StatelessWidget {
                 children: [
                   _buildHeader(isDesktop),
                   SizedBox(height: isDesktop ? 20 : 20),
-                  if (isDesktop)
-                    Expanded(child: _buildDesktopGrid(context, isDesktop))
-                  else
-                    _buildMobileLayout(isDesktop),
+
+                  // 🔥 CHANGED: always use Expanded and switch inside
+                  Expanded(
+                    child: isDesktop
+                        ? _buildDesktopGrid(context, isDesktop)
+                        : _buildMobileLayout(isDesktop),
+                  ),
                 ],
               ),
             ),
@@ -654,7 +657,7 @@ class AboutScreen extends StatelessWidget {
                       title: 'Bio',
                       isDesktop: true,
                       richText: TextSpan(
-                        style: TextStyle(fontSize: 15, height: 1.6),
+                        style: const TextStyle(fontSize: 15, height: 1.6),
                         children: [
                           TextSpan(
                             text: "A passionate ",
@@ -662,7 +665,7 @@ class AboutScreen extends StatelessWidget {
                               color: Colors.white.withOpacity(0.85),
                             ),
                           ),
-                          TextSpan(
+                          const TextSpan(
                             text: "developer and technology enthusiast",
                             style: TextStyle(
                               color: Colors.white,
@@ -675,7 +678,7 @@ class AboutScreen extends StatelessWidget {
                               color: Colors.white.withOpacity(0.85),
                             ),
                           ),
-                          TextSpan(
+                          const TextSpan(
                             text:
                                 "B.Tech in Information Technology (2023–2027)",
                             style: TextStyle(
@@ -690,7 +693,7 @@ class AboutScreen extends StatelessWidget {
                               color: Colors.white.withOpacity(0.85),
                             ),
                           ),
-                          TextSpan(
+                          const TextSpan(
                             text:
                                 "building, experimenting, breaking, and improving.",
                             style: TextStyle(
@@ -704,7 +707,7 @@ class AboutScreen extends StatelessWidget {
                               color: Colors.white.withOpacity(0.85),
                             ),
                           ),
-                          TextSpan(
+                          const TextSpan(
                             text:
                                 "modern tech stacks, cloud systems, automation, DevOps workflows",
                             style: TextStyle(
@@ -718,7 +721,7 @@ class AboutScreen extends StatelessWidget {
                               color: Colors.white.withOpacity(0.85),
                             ),
                           ),
-                          TextSpan(
+                          const TextSpan(
                             text: "software architectures.",
                             style: TextStyle(
                               color: Colors.white,
@@ -738,7 +741,7 @@ class AboutScreen extends StatelessWidget {
                               color: Colors.white.withOpacity(0.85),
                             ),
                           ),
-                          TextSpan(
+                          const TextSpan(
                             text: "self-hosted systems",
                             style: TextStyle(
                               color: Colors.white,
@@ -751,7 +754,7 @@ class AboutScreen extends StatelessWidget {
                               color: Colors.white.withOpacity(0.85),
                             ),
                           ),
-                          TextSpan(
+                          const TextSpan(
                             text: "automation pipelines",
                             style: TextStyle(
                               color: Colors.white,
@@ -764,7 +767,7 @@ class AboutScreen extends StatelessWidget {
                               color: Colors.white.withOpacity(0.85),
                             ),
                           ),
-                          TextSpan(
+                          const TextSpan(
                             text: "web and mobile applications",
                             style: TextStyle(
                               color: Colors.white,
@@ -785,7 +788,7 @@ class AboutScreen extends StatelessWidget {
                               color: Colors.white.withOpacity(0.85),
                             ),
                           ),
-                          TextSpan(
+                          const TextSpan(
                             text:
                                 "scalability, automation, reliability, maintainability",
                             style: TextStyle(
@@ -842,7 +845,7 @@ class AboutScreen extends StatelessWidget {
                               color: Colors.white.withOpacity(0.85),
                             ),
                           ),
-                          TextSpan(
+                          const TextSpan(
                             text: "fast learner",
                             style: TextStyle(
                               color: Colors.white,
@@ -862,7 +865,7 @@ class AboutScreen extends StatelessWidget {
                               color: Colors.white.withOpacity(0.85),
                             ),
                           ),
-                          TextSpan(
+                          const TextSpan(
                             text:
                                 "system architecture, automation, DevOps thinking, and structured problem-solving.",
                             style: TextStyle(
@@ -884,7 +887,7 @@ class AboutScreen extends StatelessWidget {
                               color: Colors.white.withOpacity(0.85),
                             ),
                           ),
-                          TextSpan(
+                          const TextSpan(
                             text:
                                 "clarity, structured learning, and meaningful progress",
                             style: TextStyle(
@@ -942,7 +945,7 @@ class AboutScreen extends StatelessWidget {
                               color: Colors.white.withOpacity(0.85),
                             ),
                           ),
-                          TextSpan(
+                          const TextSpan(
                             text:
                                 "Ethical Intelligent Technologies (EIT), Chennai",
                             style: TextStyle(
@@ -956,7 +959,7 @@ class AboutScreen extends StatelessWidget {
                               color: Colors.white.withOpacity(0.85),
                             ),
                           ),
-                          TextSpan(
+                          const TextSpan(
                             text: "two months",
                             style: TextStyle(
                               color: Colors.white,
@@ -969,7 +972,7 @@ class AboutScreen extends StatelessWidget {
                               color: Colors.white.withOpacity(0.85),
                             ),
                           ),
-                          TextSpan(
+                          const TextSpan(
                             text: "Team Lead",
                             style: TextStyle(
                               color: Colors.white,
@@ -982,7 +985,7 @@ class AboutScreen extends StatelessWidget {
                               color: Colors.white.withOpacity(0.85),
                             ),
                           ),
-                          TextSpan(
+                          const TextSpan(
                             text: "self-hosted ERPNext implementation.",
                             style: TextStyle(
                               color: Colors.white,
@@ -1003,7 +1006,7 @@ class AboutScreen extends StatelessWidget {
                               color: Colors.white.withOpacity(0.85),
                             ),
                           ),
-                          TextSpan(
+                          const TextSpan(
                             text:
                                 "URL shorteners, media streaming pipelines, automation scripts,",
                             style: TextStyle(
@@ -1024,7 +1027,7 @@ class AboutScreen extends StatelessWidget {
                               color: Colors.white.withOpacity(0.85),
                             ),
                           ),
-                          TextSpan(
+                          const TextSpan(
                             text: "ERPNext and Zoho Mail using APIs",
                             style: TextStyle(
                               color: Colors.white,
@@ -1045,7 +1048,7 @@ class AboutScreen extends StatelessWidget {
                               color: Colors.white.withOpacity(0.85),
                             ),
                           ),
-                          TextSpan(
+                          const TextSpan(
                             text: "Angular and Spring Boot",
                             style: TextStyle(
                               color: Colors.white,
@@ -1066,7 +1069,7 @@ class AboutScreen extends StatelessWidget {
                               color: Colors.white.withOpacity(0.85),
                             ),
                           ),
-                          TextSpan(
+                          const TextSpan(
                             text: "LeetCode repository",
                             style: TextStyle(
                               color: Colors.white,
@@ -1124,7 +1127,7 @@ class AboutScreen extends StatelessWidget {
                               color: Colors.white.withOpacity(0.85),
                             ),
                           ),
-                          TextSpan(
+                          const TextSpan(
                             text:
                                 "coding, automation concepts, and solving technical challenges",
                             style: TextStyle(
@@ -1145,7 +1148,7 @@ class AboutScreen extends StatelessWidget {
                               color: Colors.white.withOpacity(0.85),
                             ),
                           ),
-                          TextSpan(
+                          const TextSpan(
                             text:
                                 "UI/UX design in Flutter and frontend frameworks,",
                             style: TextStyle(
@@ -1166,7 +1169,7 @@ class AboutScreen extends StatelessWidget {
                               color: Colors.white.withOpacity(0.85),
                             ),
                           ),
-                          TextSpan(
+                          const TextSpan(
                             text:
                                 "self-hosted systems and deployment environments",
                             style: TextStyle(
@@ -1188,7 +1191,7 @@ class AboutScreen extends StatelessWidget {
                               color: Colors.white.withOpacity(0.85),
                             ),
                           ),
-                          TextSpan(
+                          const TextSpan(
                             text: "algorithms and problem-solving on LeetCode,",
                             style: TextStyle(
                               color: Colors.white,
@@ -1209,7 +1212,7 @@ class AboutScreen extends StatelessWidget {
                               color: Colors.white.withOpacity(0.85),
                             ),
                           ),
-                          TextSpan(
+                          const TextSpan(
                             text:
                                 "tech reviews, system design discussions, developer podcasts, and deep-dive content.",
                             style: TextStyle(
@@ -1244,77 +1247,469 @@ class AboutScreen extends StatelessWidget {
     );
   }
 
+  // 🔥 CHANGED: mobile now uses the SAME richText as desktop, in a vertical scroll layout
   Widget _buildMobileLayout(bool isDesktop) {
-    const bioHeight = 300.0;
-    const strengthsHeight = 280.0;
-    const experienceHeight = 300.0;
-    const hobbiesHeight = 300.0;
-
-    return Column(
+    return ListView(
+      physics: const BouncingScrollPhysics(),
+      padding: EdgeInsets.zero,
       children: [
+        // Bio
         AnimatedCard(
           delay: 1,
           padding: const EdgeInsets.all(16),
-          height: bioHeight,
+          height: null, // let content decide height
           onHoverChanged: onInnerHoverChanged,
-          child: const ScrollableContent(
+          child: ScrollableContent(
             title: 'Bio',
-            content:
-                "A passionate developer and technology enthusiast, currently pursuing B.Tech in Information Technology (2023–2027) at St. Joseph's Institute of Technology, Chennai. I explore modern tech stacks, cloud systems, automation, and scalable architectures. I'm driven by curiosity and enjoy building systems from scratch — whether it's self-hosted services, automation scripts, or modern web/mobile applications.",
             isDesktop: false,
+            richText: TextSpan(
+              style: const TextStyle(fontSize: 14, height: 1.6),
+              children: [
+                TextSpan(
+                  text: "A passionate ",
+                  style: TextStyle(color: Colors.white.withOpacity(0.85)),
+                ),
+                const TextSpan(
+                  text: "developer and technology enthusiast",
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontWeight: FontWeight.w600,
+                  ),
+                ),
+                TextSpan(
+                  text: ", currently pursuing ",
+                  style: TextStyle(color: Colors.white.withOpacity(0.85)),
+                ),
+                const TextSpan(
+                  text: "B.Tech in Information Technology (2023–2027)",
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontWeight: FontWeight.w600,
+                  ),
+                ),
+                TextSpan(
+                  text:
+                      " at St. Joseph's Institute of Technology, Chennai. My journey into technology started with curiosity and grew into a mindset of ",
+                  style: TextStyle(color: Colors.white.withOpacity(0.85)),
+                ),
+                const TextSpan(
+                  text: "building, experimenting, breaking, and improving.",
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontWeight: FontWeight.w600,
+                  ),
+                ),
+                TextSpan(
+                  text: "\n\nI explore ",
+                  style: TextStyle(color: Colors.white.withOpacity(0.85)),
+                ),
+                const TextSpan(
+                  text:
+                      "modern tech stacks, cloud systems, automation, DevOps workflows",
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontWeight: FontWeight.w600,
+                  ),
+                ),
+                TextSpan(
+                  text: ", and scalable ",
+                  style: TextStyle(color: Colors.white.withOpacity(0.85)),
+                ),
+                const TextSpan(
+                  text: "software architectures.",
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontWeight: FontWeight.w600,
+                  ),
+                ),
+                TextSpan(
+                  text:
+                      " I enjoy understanding how things work under the hood — not just using technology but engineering it.",
+                  style: TextStyle(color: Colors.white.withOpacity(0.85)),
+                ),
+                TextSpan(
+                  text: "\n\nWhether it's deploying ",
+                  style: TextStyle(color: Colors.white.withOpacity(0.85)),
+                ),
+                const TextSpan(
+                  text: "self-hosted systems",
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontWeight: FontWeight.w600,
+                  ),
+                ),
+                TextSpan(
+                  text: ", creating optimized ",
+                  style: TextStyle(color: Colors.white.withOpacity(0.85)),
+                ),
+                const TextSpan(
+                  text: "automation pipelines",
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontWeight: FontWeight.w600,
+                  ),
+                ),
+                TextSpan(
+                  text: ", or building scalable and maintainable ",
+                  style: TextStyle(color: Colors.white.withOpacity(0.85)),
+                ),
+                const TextSpan(
+                  text: "web and mobile applications",
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontWeight: FontWeight.w600,
+                  ),
+                ),
+                TextSpan(
+                  text:
+                      ", my focus is always on performance, structure, and real-world utility.",
+                  style: TextStyle(color: Colors.white.withOpacity(0.85)),
+                ),
+                TextSpan(
+                  text:
+                      "\n\nI believe in writing clean systems over just writing code — with principles like ",
+                  style: TextStyle(color: Colors.white.withOpacity(0.85)),
+                ),
+                const TextSpan(
+                  text: "scalability, automation, reliability, maintainability",
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontWeight: FontWeight.w600,
+                  ),
+                ),
+                TextSpan(
+                  text: " guiding every project.",
+                  style: TextStyle(color: Colors.white.withOpacity(0.85)),
+                ),
+                TextSpan(
+                  text:
+                      "\n\nThis is just the start — the long-term goal is to build, innovate, and contribute to systems that scale beyond individuals.",
+                  style: TextStyle(color: Colors.white.withOpacity(0.85)),
+                ),
+              ],
+            ),
           ),
         ),
         const SizedBox(height: 14),
+
+        // Strengths
         AnimatedCard(
           delay: 2,
           padding: const EdgeInsets.all(16),
-          height: strengthsHeight,
+          height: null,
           onHoverChanged: onInnerHoverChanged,
-          child: const ScrollableContent(
+          child: ScrollableContent(
             title: 'Strengths',
             isDesktop: false,
-            bulletPoints: [
-              'Fast learner with strong adaptability to new tools and technologies',
-              'Passionate about system architecture, automation, and problem solving',
-              'Consistent, disciplined, and focused on continuous improvement',
-            ],
+            richText: TextSpan(
+              style: const TextStyle(fontSize: 14, height: 1.6),
+              children: [
+                TextSpan(
+                  text: "One of my strongest qualities is being a ",
+                  style: TextStyle(color: Colors.white.withOpacity(0.85)),
+                ),
+                const TextSpan(
+                  text: "fast learner",
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontWeight: FontWeight.w600,
+                  ),
+                ),
+                TextSpan(
+                  text:
+                      ", with the ability to quickly adapt to new environments, tools, and evolving technologies. I thrive in spaces where challenges push boundaries, and I enjoy exploring problems from a deeper technical perspective.",
+                  style: TextStyle(color: Colors.white.withOpacity(0.85)),
+                ),
+                TextSpan(
+                  text: "\n\nI'm deeply passionate about ",
+                  style: TextStyle(color: Colors.white.withOpacity(0.85)),
+                ),
+                const TextSpan(
+                  text:
+                      "system architecture, automation, DevOps thinking, and structured problem-solving.",
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontWeight: FontWeight.w600,
+                  ),
+                ),
+                TextSpan(
+                  text:
+                      " I constantly analyze systems not just for how they work — but how they can be optimized, automated, or scaled with purpose.",
+                  style: TextStyle(color: Colors.white.withOpacity(0.85)),
+                ),
+                TextSpan(
+                  text:
+                      "\n\nConsistency and discipline play a big role in how I work. I value ",
+                  style: TextStyle(color: Colors.white.withOpacity(0.85)),
+                ),
+                const TextSpan(
+                  text: "clarity, structured learning, and meaningful progress",
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontWeight: FontWeight.w600,
+                  ),
+                ),
+                TextSpan(
+                  text:
+                      " over speed or shortcuts. Whether it's debugging a system, learning a new framework, or refining a solution, I approach it with focus, patience, and intentional depth.",
+                  style: TextStyle(color: Colors.white.withOpacity(0.85)),
+                ),
+                TextSpan(
+                  text:
+                      "\n\nFuelled by curiosity and a drive to continuously improve, I believe real growth happens by staying consistent — learning, refining, and building a little better than yesterday.",
+                  style: TextStyle(color: Colors.white.withOpacity(0.85)),
+                ),
+              ],
+            ),
           ),
         ),
         const SizedBox(height: 14),
+
+        // Experience
         AnimatedCard(
           delay: 3,
           padding: const EdgeInsets.all(16),
-          height: experienceHeight,
+          height: null,
           onHoverChanged: onInnerHoverChanged,
-          child: const ScrollableContent(
+          child: ScrollableContent(
             title: 'Experience',
             isDesktop: false,
-            bulletPoints: [
-              'Built and deployed self-hosted systems like URL shorteners, automation scripts, Cloudflare HLS streaming, and custom workflows',
-              'Integrated ERPNext with external platforms like Zoho Mail using APIs and automation',
-              'Developed full-stack projects using Angular + Spring Boot and optimized backend workflows',
-              'Maintains a structured LeetCode repository with automation for daily problem solving',
-            ],
+            richText: TextSpan(
+              style: const TextStyle(fontSize: 14, height: 1.6),
+              children: [
+                TextSpan(
+                  text: "I recently worked at ",
+                  style: TextStyle(color: Colors.white.withOpacity(0.85)),
+                ),
+                const TextSpan(
+                  text: "Ethical Intelligent Technologies (EIT), Chennai",
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontWeight: FontWeight.w600,
+                  ),
+                ),
+                TextSpan(
+                  text: " for a period of ",
+                  style: TextStyle(color: Colors.white.withOpacity(0.85)),
+                ),
+                const TextSpan(
+                  text: "two months",
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontWeight: FontWeight.w600,
+                  ),
+                ),
+                TextSpan(
+                  text: ", where I worked as a ",
+                  style: TextStyle(color: Colors.white.withOpacity(0.85)),
+                ),
+                const TextSpan(
+                  text: "Team Lead",
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontWeight: FontWeight.w600,
+                  ),
+                ),
+                TextSpan(
+                  text: " on a full-scale ",
+                  style: TextStyle(color: Colors.white.withOpacity(0.85)),
+                ),
+                const TextSpan(
+                  text: "self-hosted ERPNext implementation.",
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontWeight: FontWeight.w600,
+                  ),
+                ),
+                TextSpan(
+                  text:
+                      " This role involved managing deployment, customization, modular configuration, and workflow automation while ensuring stable and scalable system behavior. Leading a team taught me decision-making, structured task delegation, and handling development with responsibility and clarity.",
+                  style: TextStyle(color: Colors.white.withOpacity(0.85)),
+                ),
+                TextSpan(
+                  text:
+                      "\n\nBeyond professional work, my experience spans building practical solutions, exploring automation, and deploying self-hosted systems. I've worked on projects involving ",
+                  style: TextStyle(color: Colors.white.withOpacity(0.85)),
+                ),
+                const TextSpan(
+                  text:
+                      "URL shorteners, media streaming pipelines, automation scripts,",
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontWeight: FontWeight.w600,
+                  ),
+                ),
+                TextSpan(
+                  text:
+                      " and custom workflows — focusing on reliability, structure, and real-world usage.",
+                  style: TextStyle(color: Colors.white.withOpacity(0.85)),
+                ),
+                TextSpan(
+                  text: "\n\nI've also integrated platforms like ",
+                  style: TextStyle(color: Colors.white.withOpacity(0.85)),
+                ),
+                const TextSpan(
+                  text: "ERPNext and Zoho Mail using APIs",
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontWeight: FontWeight.w600,
+                  ),
+                ),
+                TextSpan(
+                  text:
+                      ", enabling automated lead creation, attachment processing, and synchronized communication pipelines — deepening my understanding of API architecture and backend automation.",
+                  style: TextStyle(color: Colors.white.withOpacity(0.85)),
+                ),
+                TextSpan(
+                  text: "\n\nOn the development side, I've worked with ",
+                  style: TextStyle(color: Colors.white.withOpacity(0.85)),
+                ),
+                const TextSpan(
+                  text: "Angular and Spring Boot",
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontWeight: FontWeight.w600,
+                  ),
+                ),
+                TextSpan(
+                  text:
+                      ", building modular frontend components and optimized backend services with clear separation of concerns and scalable patterns.",
+                  style: TextStyle(color: Colors.white.withOpacity(0.85)),
+                ),
+                TextSpan(
+                  text: "\n\nI also maintain a consistently organized ",
+                  style: TextStyle(color: Colors.white.withOpacity(0.85)),
+                ),
+                const TextSpan(
+                  text: "LeetCode repository",
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontWeight: FontWeight.w600,
+                  ),
+                ),
+                TextSpan(
+                  text:
+                      " with automation around tracking problem-solving progress — improving my algorithmic thinking, patterns, and coding discipline.",
+                  style: TextStyle(color: Colors.white.withOpacity(0.85)),
+                ),
+                TextSpan(
+                  text:
+                      "\n\nEvery project, deployment, and collaboration has strengthened not only my technical skillset but also my mindset — focusing on structure, clarity, responsibility, and systems that scale.",
+                  style: TextStyle(color: Colors.white.withOpacity(0.85)),
+                ),
+              ],
+            ),
           ),
         ),
         const SizedBox(height: 14),
+
+        // Hobbies
         AnimatedCard(
           delay: 4,
           padding: const EdgeInsets.all(16),
-          height: hobbiesHeight,
+          height: null,
           onHoverChanged: onInnerHoverChanged,
-          child: const ScrollableContent(
+          child: ScrollableContent(
             title: 'Hobbies',
             isDesktop: false,
-            bulletPoints: [
-              'Coding and exploring automation ideas',
-              'UI/UX experimentation in Flutter',
-              'Self-hosting servers and configuring deployments',
-              'Practicing algorithms and solving LeetCode',
-              'Watching tech reviews, system design content, and developer podcasts',
-            ],
+            richText: TextSpan(
+              style: const TextStyle(fontSize: 14, height: 1.6),
+              children: [
+                TextSpan(
+                  text:
+                      "Outside structured learning and development, I spend time exploring technology from a more experimental and creative side. A large part of my free time goes into ",
+                  style: TextStyle(color: Colors.white.withOpacity(0.85)),
+                ),
+                const TextSpan(
+                  text:
+                      "coding, automation concepts, and solving technical challenges",
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontWeight: FontWeight.w600,
+                  ),
+                ),
+                TextSpan(
+                  text:
+                      " — not because I have to, but because I genuinely enjoy the process of building and optimizing things.",
+                  style: TextStyle(color: Colors.white.withOpacity(0.85)),
+                ),
+                TextSpan(
+                  text: "\n\nI also enjoy experimenting with ",
+                  style: TextStyle(color: Colors.white.withOpacity(0.85)),
+                ),
+                const TextSpan(
+                  text: "UI/UX design in Flutter and frontend frameworks,",
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontWeight: FontWeight.w600,
+                  ),
+                ),
+                TextSpan(
+                  text:
+                      " where I get to convert ideas into clean interfaces and animations. This helps me balance creativity with technical thinking.",
+                  style: TextStyle(color: Colors.white.withOpacity(0.85)),
+                ),
+                TextSpan(
+                  text: "\n\nAnother area I enjoy is working with ",
+                  style: TextStyle(color: Colors.white.withOpacity(0.85)),
+                ),
+                const TextSpan(
+                  text: "self-hosted systems and deployment environments",
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontWeight: FontWeight.w600,
+                  ),
+                ),
+                TextSpan(
+                  text:
+                      " — experimenting with servers, networking, and containerized services. Exploring how deployment pipelines, security, and system configuration work gives me a deeper understanding of how software behaves beyond just development.",
+                  style: TextStyle(color: Colors.white.withOpacity(0.85)),
+                ),
+                TextSpan(
+                  text:
+                      "\n\nTo stay sharp in logic and pattern recognition, I regularly practice ",
+                  style: TextStyle(color: Colors.white.withOpacity(0.85)),
+                ),
+                const TextSpan(
+                  text: "algorithms and problem-solving on LeetCode,",
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontWeight: FontWeight.w600,
+                  ),
+                ),
+                TextSpan(
+                  text:
+                      " improving my analytical thinking and coding patterns over time.",
+                  style: TextStyle(color: Colors.white.withOpacity(0.85)),
+                ),
+                TextSpan(
+                  text:
+                      "\n\nWhen I'm not building or solving something, I spend time learning passively through ",
+                  style: TextStyle(color: Colors.white.withOpacity(0.85)),
+                ),
+                const TextSpan(
+                  text:
+                      "tech reviews, system design discussions, developer podcasts, and deep-dive content.",
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontWeight: FontWeight.w600,
+                  ),
+                ),
+                TextSpan(
+                  text:
+                      " This helps me stay updated with evolving trends, best practices, and perspectives from experienced engineers.",
+                  style: TextStyle(color: Colors.white.withOpacity(0.85)),
+                ),
+                TextSpan(
+                  text:
+                      "\n\nOverall, my hobbies reflect curiosity — exploring technology not just as a career path but as something I genuinely enjoy learning, experimenting with, and growing alongside.",
+                  style: TextStyle(color: Colors.white.withOpacity(0.85)),
+                ),
+              ],
+            ),
           ),
         ),
+        const SizedBox(height: 8),
       ],
     );
   }
@@ -1341,7 +1736,6 @@ class AboutScreen extends StatelessWidget {
           style: TextStyle(
             fontSize: isDesktop ? 15 : 14,
             color: Colors.white.withOpacity(0.7),
-            // fontStyle: FontStyle.italic,
             letterSpacing: 0.5,
           ),
         ),

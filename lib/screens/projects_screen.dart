@@ -140,211 +140,225 @@ class _ProjectsScreenState extends State<ProjectsScreen>
     final displayedProjects = _showAll ? projects : projects.take(2).toList();
     final remainingCount = projects.length - 2;
 
-    return Container(
-      width: screenWidth,
-      constraints: BoxConstraints(minHeight: screenHeight),
-      child: Stack(
-        children: [
-          // Animated Background
-          Positioned.fill(
-            child: AnimatedBuilder(
-              animation: _animationController,
-              builder: (context, child) {
-                return Container(
-                  decoration: BoxDecoration(
-                    gradient: RadialGradient(
-                      center: Alignment(
-                        -0.3 + (_animationController.value * 0.6),
-                        -0.5 + (_animationController.value * 1.0),
-                      ),
-                      radius: 1.5,
-                      colors: const [
-                        Color(0xFF1a1a1a),
-                        Color(0xFF0a0a0a),
-                        Color(0xFF000000),
-                      ],
-                      stops: const [0.0, 0.5, 1.0],
-                    ),
-                  ),
-                );
-              },
-            ),
-          ),
-
-          // Animated grid pattern overlay
-          Positioned.fill(
-            child: AnimatedBuilder(
-              animation: _animationController,
-              builder: (context, child) {
-                return CustomPaint(
-                  painter: GeometricPatternPainter(_animationController.value),
-                );
-              },
-            ),
-          ),
-
-          // Main Content - Scrollable with proper constraints
-          SingleChildScrollView(
-            controller: _scrollController,
-            physics: const ClampingScrollPhysics(),
-            child: ConstrainedBox(
-              constraints: BoxConstraints(minHeight: screenHeight),
-              child: Padding(
-                padding: EdgeInsets.symmetric(
-                  horizontal: isMobile
-                      ? 20
-                      : isTablet
-                      ? 40
-                      : 80,
-                  vertical: isMobile ? 30 : 30,
-                ),
-                child: Column(
-                  children: [
-                    // Header
-                    Text(
-                      'Featured Projects',
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                        fontSize: isMobile ? 28 : 35,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.white,
-                        height: 1.2,
-                      ),
-                    ),
-                    const SizedBox(height: 4),
-                    Text(
-                      'Some of my most recent project works',
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                        fontSize: isMobile ? 13 : 15,
-                        color: Colors.white70,
-                      ),
-                    ),
-                    SizedBox(height: isMobile ? 40 : 50),
-
-                    // Projects Grid with Animation
-                    AnimatedSize(
-                      duration: const Duration(milliseconds: 500),
-                      curve: Curves.easeInOutCubic,
-                      child: GridView.builder(
-                        shrinkWrap: true,
-                        physics: const NeverScrollableScrollPhysics(),
-                        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                          crossAxisCount: isMobile ? 1 : 2,
-                          crossAxisSpacing: isMobile ? 16 : 24,
-                          mainAxisSpacing: isMobile ? 16 : 24,
-                          childAspectRatio: isMobile
-                              ? 1.5
-                              : isTablet
-                              ? 1.7
-                              : 1.9,
+    return ClipRect(
+      child: Container(
+        width: screenWidth,
+        constraints: BoxConstraints(minHeight: screenHeight),
+        child: Stack(
+          children: [
+            // Animated Background
+            Positioned.fill(
+              child: AnimatedBuilder(
+                animation: _animationController,
+                builder: (context, child) {
+                  return Container(
+                    decoration: BoxDecoration(
+                      gradient: RadialGradient(
+                        center: Alignment(
+                          -0.3 + (_animationController.value * 0.6),
+                          -0.5 + (_animationController.value * 1.0),
                         ),
-                        itemCount: displayedProjects.length,
-                        itemBuilder: (context, index) {
-                          final project = displayedProjects[index];
-                          return AnimatedCard(
-                            delay: index,
-                            child: _ProjectCard(
-                              project: project,
-                              isMobile: isMobile,
-                              onTap: () => _launchURL(project['url'] as String),
-                            ),
-                          );
-                        },
+                        radius: 1.5,
+                        colors: const [
+                          Color(0xFF1a1a1a),
+                          Color(0xFF0a0a0a),
+                          Color(0xFF000000),
+                        ],
+                        stops: const [0.0, 0.5, 1.0],
                       ),
                     ),
+                  );
+                },
+              ),
+            ),
 
-                    const SizedBox(height: 32),
+            // Animated grid pattern overlay
+            Positioned.fill(
+              child: AnimatedBuilder(
+                animation: _animationController,
+                builder: (context, child) {
+                  return CustomPaint(
+                    painter: GeometricPatternPainter(
+                      _animationController.value,
+                    ),
+                  );
+                },
+              ),
+            ),
 
-                    // Show More/Less Button
-                    Center(
-                      child: AnimatedSwitcher(
-                        duration: const Duration(milliseconds: 300),
-                        transitionBuilder: (child, animation) {
-                          return FadeTransition(
-                            opacity: animation,
-                            child: ScaleTransition(
-                              scale: animation,
-                              child: child,
-                            ),
-                          );
-                        },
-                        child: _showAll
-                            ? TextButton.icon(
-                                key: const ValueKey('showLess'),
-                                onPressed: _toggleShowAll,
-                                style: ButtonStyle(
-                                  overlayColor: WidgetStateProperty.all(
-                                    Colors.white.withOpacity(0.1),
-                                  ),
-                                  foregroundColor:
-                                      WidgetStateProperty.resolveWith((states) {
-                                        if (states.contains(
-                                          WidgetState.hovered,
-                                        )) {
-                                          return Colors.white; // hover color
-                                        }
-                                        return AppTheme.pureWhite.withOpacity(
-                                          0.5,
-                                        );
-                                      }),
-                                ),
-                                icon: Icon(
-                                  Icons.keyboard_arrow_up_rounded,
-                                  color: AppTheme.pureWhite.withOpacity(0.7),
-                                ),
-                                label: Text(
-                                  'Show Less',
-                                  style: TextStyle(
-                                    fontSize: isMobile ? 10 : 12,
-                                    color: AppTheme.pureWhite.withOpacity(0.7),
-                                    fontWeight: FontWeight.w500,
-                                  ),
-                                ),
-                              )
-                            : TextButton.icon(
-                                key: const ValueKey('showMore'),
-                                onPressed: _toggleShowAll,
-                                style: ButtonStyle(
-                                  overlayColor: WidgetStateProperty.all(
-                                    Colors.white.withOpacity(
-                                      0.1,
-                                    ), // click/press effect
-                                  ),
-                                  foregroundColor:
-                                      WidgetStateProperty.resolveWith((states) {
-                                        if (states.contains(
-                                          WidgetState.hovered,
-                                        )) {
-                                          return Colors.white; // hover color
-                                        }
-                                        return AppTheme.pureWhite.withOpacity(
-                                          0.5,
-                                        );
-                                      }),
-                                ),
-                                icon: Icon(
-                                  Icons.keyboard_arrow_down_rounded,
-                                  color: AppTheme.pureWhite.withOpacity(0.7),
-                                ),
-                                label: Text(
-                                  'Show More +$remainingCount',
-                                  style: TextStyle(
-                                    fontSize: isMobile ? 10 : 12,
-                                    color: AppTheme.pureWhite.withOpacity(0.7),
-                                    fontWeight: FontWeight.w500,
-                                  ),
-                                ),
+            // Main Content - Scrollable with proper constraints
+            SingleChildScrollView(
+              controller: _scrollController,
+              physics: const ClampingScrollPhysics(),
+              child: ConstrainedBox(
+                constraints: BoxConstraints(minHeight: screenHeight),
+                child: Padding(
+                  padding: EdgeInsets.symmetric(
+                    horizontal: isMobile
+                        ? 20
+                        : isTablet
+                        ? 40
+                        : 80,
+                    vertical: isMobile ? 30 : 30,
+                  ),
+                  child: Column(
+                    children: [
+                      // Header
+                      Text(
+                        'Featured Projects',
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          fontSize: isMobile ? 28 : 35,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.white,
+                          height: 1.2,
+                        ),
+                      ),
+                      const SizedBox(height: 4),
+                      Text(
+                        'Some of my most recent project works',
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          fontSize: isMobile ? 13 : 15,
+                          color: Colors.white70,
+                        ),
+                      ),
+                      SizedBox(height: isMobile ? 40 : 50),
+
+                      // Projects Grid with Animation
+                      AnimatedSize(
+                        duration: const Duration(milliseconds: 500),
+                        curve: Curves.easeInOutCubic,
+                        child: GridView.builder(
+                          shrinkWrap: true,
+                          physics: const NeverScrollableScrollPhysics(),
+                          gridDelegate:
+                              SliverGridDelegateWithFixedCrossAxisCount(
+                                crossAxisCount: isMobile ? 1 : 2,
+                                crossAxisSpacing: isMobile ? 16 : 24,
+                                mainAxisSpacing: isMobile ? 16 : 24,
+                                childAspectRatio: isMobile
+                                    ? 1.5
+                                    : isTablet
+                                    ? 1.7
+                                    : 1.9,
                               ),
+                          itemCount: displayedProjects.length,
+                          itemBuilder: (context, index) {
+                            final project = displayedProjects[index];
+                            return AnimatedCard(
+                              delay: index,
+                              child: _ProjectCard(
+                                project: project,
+                                isMobile: isMobile,
+                                onTap: () =>
+                                    _launchURL(project['url'] as String),
+                              ),
+                            );
+                          },
+                        ),
                       ),
-                    ),
-                    const SizedBox(height: 0),
-                  ],
+
+                      const SizedBox(height: 32),
+
+                      // Show More/Less Button
+                      Center(
+                        child: AnimatedSwitcher(
+                          duration: const Duration(milliseconds: 300),
+                          transitionBuilder: (child, animation) {
+                            return FadeTransition(
+                              opacity: animation,
+                              child: ScaleTransition(
+                                scale: animation,
+                                child: child,
+                              ),
+                            );
+                          },
+                          child: _showAll
+                              ? TextButton.icon(
+                                  key: const ValueKey('showLess'),
+                                  onPressed: _toggleShowAll,
+                                  style: ButtonStyle(
+                                    overlayColor: WidgetStateProperty.all(
+                                      Colors.white.withOpacity(0.1),
+                                    ),
+                                    foregroundColor:
+                                        WidgetStateProperty.resolveWith((
+                                          states,
+                                        ) {
+                                          if (states.contains(
+                                            WidgetState.hovered,
+                                          )) {
+                                            return Colors.white; // hover color
+                                          }
+                                          return AppTheme.pureWhite.withOpacity(
+                                            0.5,
+                                          );
+                                        }),
+                                  ),
+                                  icon: Icon(
+                                    Icons.keyboard_arrow_up_rounded,
+                                    color: AppTheme.pureWhite.withOpacity(0.7),
+                                  ),
+                                  label: Text(
+                                    'Show Less',
+                                    style: TextStyle(
+                                      fontSize: isMobile ? 10 : 12,
+                                      color: AppTheme.pureWhite.withOpacity(
+                                        0.7,
+                                      ),
+                                      fontWeight: FontWeight.w500,
+                                    ),
+                                  ),
+                                )
+                              : TextButton.icon(
+                                  key: const ValueKey('showMore'),
+                                  onPressed: _toggleShowAll,
+                                  style: ButtonStyle(
+                                    overlayColor: WidgetStateProperty.all(
+                                      Colors.white.withOpacity(
+                                        0.1,
+                                      ), // click/press effect
+                                    ),
+                                    foregroundColor:
+                                        WidgetStateProperty.resolveWith((
+                                          states,
+                                        ) {
+                                          if (states.contains(
+                                            WidgetState.hovered,
+                                          )) {
+                                            return Colors.white; // hover color
+                                          }
+                                          return AppTheme.pureWhite.withOpacity(
+                                            0.5,
+                                          );
+                                        }),
+                                  ),
+                                  icon: Icon(
+                                    Icons.keyboard_arrow_down_rounded,
+                                    color: AppTheme.pureWhite.withOpacity(0.7),
+                                  ),
+                                  label: Text(
+                                    'Show More +$remainingCount',
+                                    style: TextStyle(
+                                      fontSize: isMobile ? 10 : 12,
+                                      color: AppTheme.pureWhite.withOpacity(
+                                        0.7,
+                                      ),
+                                      fontWeight: FontWeight.w500,
+                                    ),
+                                  ),
+                                ),
+                        ),
+                      ),
+                      const SizedBox(height: 0),
+                    ],
+                  ),
                 ),
               ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }

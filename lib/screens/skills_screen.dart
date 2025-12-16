@@ -11,6 +11,7 @@ class SkillsScreen extends StatefulWidget {
 class _SkillsScreenState extends State<SkillsScreen>
     with SingleTickerProviderStateMixin {
   late AnimationController _animationController;
+  bool _isVisible = false;
 
   final technicalSkills = const [
     {'name': 'Java', 'level': 85},
@@ -49,8 +50,34 @@ class _SkillsScreenState extends State<SkillsScreen>
     super.initState();
     _animationController = AnimationController(
       vsync: this,
-      duration: const Duration(seconds: 20),
-    )..repeat();
+      duration: const Duration(seconds: 8),
+    );
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+
+    // Screen became visible
+    if (ModalRoute.of(context)?.isCurrent == true) {
+      _startAnimation();
+    } else {
+      _stopAnimation();
+    }
+  }
+
+  void _startAnimation() {
+    if (!_isVisible) {
+      _isVisible = true;
+      _animationController.repeat();
+    }
+  }
+
+  void _stopAnimation() {
+    if (_isVisible) {
+      _isVisible = false;
+      _animationController.stop();
+    }
   }
 
   @override
@@ -61,186 +88,206 @@ class _SkillsScreenState extends State<SkillsScreen>
 
   @override
   Widget build(BuildContext context) {
-    final screenWidth = MediaQuery.of(context).size.width;
+    final width = MediaQuery.of(context).size.width;
     final screenHeight = MediaQuery.of(context).size.height;
-    final isMobile = screenWidth < 750;
-    final isTablet = screenWidth >= 750 && screenWidth < 1100;
+    final isMobile = width < 750;
+    final isDesktop = width >= 1100;
 
-    return SizedBox(
-      width: screenWidth,
-      height: screenHeight,
-      child: Stack(
-        children: [
-          /// 🔥 Animated Background
-          Positioned.fill(
-            child: AnimatedBuilder(
-              animation: _animationController,
-              builder: (_, __) {
-                return Container(
-                  decoration: BoxDecoration(
-                    gradient: RadialGradient(
-                      center: Alignment(
-                        -0.3 + (_animationController.value * 0.7),
-                        -0.4 + (_animationController.value * 0.9),
-                      ),
-                      radius: 1.6,
-                      colors: const [
-                        Color(0xFF111111),
-                        Color(0xFF080808),
-                        Colors.black,
-                      ],
+    return ClipRect(
+      child: Container(
+        width: width,
+        height: isDesktop ? screenHeight : null, // 👈 FIX HERE
+        color: Colors.black,
+        child: Stack(
+          children: [
+            if (_isVisible)
+              Positioned.fill(
+                child: AnimatedBuilder(
+                  animation: _animationController,
+                  builder: (_, __) => CustomPaint(
+                    painter: FullEffectBackgroundPainter(
+                      _animationController.value,
                     ),
                   ),
-                );
-              },
-            ),
-          ),
-
-          Positioned.fill(
-            child: AnimatedBuilder(
-              animation: _animationController,
-              builder: (_, __) => CustomPaint(
-                painter: FullEffectBackgroundPainter(
-                  _animationController.value,
                 ),
               ),
+
+            SafeArea(
+              child: Padding(
+                padding: EdgeInsets.symmetric(
+                  horizontal: isMobile ? 20 : 90,
+                  vertical: isMobile ? 20 : 40,
+                ),
+                child: isMobile ? _mobileView() : _desktopView(),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  // -------------------------- MOBILE --------------------------
+  Widget _mobileView() {
+    return Center(
+      // <-- FIX: Center content
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          _header(true),
+          const SizedBox(height: 20),
+
+          _mobileSection(
+            "Technical Skills",
+            Icons.code,
+            Column(children: technicalSkills.map(_mobileProgress).toList()),
+          ),
+          const SizedBox(height: 20),
+
+          _mobileSection(
+            "Tools & Platforms",
+            Icons.build_circle,
+            Wrap(
+              spacing: 8,
+              runSpacing: 8,
+              alignment: WrapAlignment.center, // center chips
+              children: tools.map(_mobileChip).toList(),
             ),
           ),
 
-          /// 📌 Content
-          SafeArea(
-            child: Padding(
-              padding: EdgeInsets.symmetric(
-                horizontal: isMobile
-                    ? 20
-                    : isTablet
-                    ? 40
-                    : 80,
-                vertical: isMobile ? 30 : 40,
-              ),
-              child: Column(
-                children: [
-                  // --- Header ---
-                  Text(
-                    'Skill & Expertise',
-                    style: TextStyle(
-                      fontSize: isMobile ? 28 : 35,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.white,
-                    ),
-                    textAlign: TextAlign.center,
-                  ),
-                  const SizedBox(height: 6),
-                  Text(
-                    'Technologies, traits & tools I master',
-                    style: TextStyle(
-                      fontSize: isMobile ? 13 : 15,
-                      color: Colors.white70,
-                    ),
-                    textAlign: TextAlign.center,
-                  ),
+          const SizedBox(height: 20),
 
-                  // --- Centered Content ---
-                  Expanded(
-                    child: Center(
-                      child: SingleChildScrollView(
-                        physics: const BouncingScrollPhysics(),
-                        child: isMobile
-                            ? _mobileLayout()
-                            : _desktopLayout(screenHeight),
-                      ),
-                    ),
-                  ),
-                ],
-              ),
+          _mobileSection(
+            "Soft Skills",
+            Icons.psychology,
+            Wrap(
+              spacing: 8,
+              runSpacing: 8,
+              alignment: WrapAlignment.center,
+              children: softSkills.map(_mobileChip).toList(),
             ),
+          ),
+
+          const SizedBox(height: 30),
+        ],
+      ),
+    );
+  }
+
+  Widget _mobileSection(String title, IconData icon, Widget child) {
+    return Container(
+      width: 350, // <-- Center width so it doesn't stretch left
+      padding: const EdgeInsets.all(16),
+      decoration: BoxDecoration(
+        color: Colors.white.withOpacity(.05),
+        borderRadius: BorderRadius.circular(16),
+        border: Border.all(color: Colors.white.withOpacity(.1)),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Icon(icon, color: Colors.white),
+              const SizedBox(width: 8),
+              Text(
+                title,
+                style: const TextStyle(
+                  color: Colors.white,
+                  fontSize: 18,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            ],
+          ),
+          const SizedBox(height: 16),
+          child,
+        ],
+      ),
+    );
+  }
+
+  // -------------------------- DESKTOP --------------------------
+  Widget _desktopView() {
+    return SingleChildScrollView(
+      child: Column(
+        children: [
+          _header(false),
+          const SizedBox(height: 40),
+          Row(
+            children: [
+              Expanded(
+                child: Column(
+                  children: [
+                    _title("=> Technical Skills"),
+                    const SizedBox(height: 20),
+                    ...technicalSkills.map(_progress),
+                  ],
+                ),
+              ),
+              Container(
+                width: 1,
+                height: 300,
+                color: Colors.white24,
+                margin: const EdgeInsets.symmetric(horizontal: 50),
+              ),
+              Expanded(
+                child: Column(
+                  children: [
+                    _title("=> Tools & Platforms"),
+                    const SizedBox(height: 20),
+                    Wrap(
+                      spacing: 10,
+                      runSpacing: 10,
+                      children: tools.map(_chip).toList(),
+                    ),
+                    const SizedBox(height: 40),
+                    _title("=> Soft Skills"),
+                    const SizedBox(height: 20),
+                    Wrap(
+                      spacing: 10,
+                      runSpacing: 10,
+                      children: softSkills.map(_chip).toList(),
+                    ),
+                  ],
+                ),
+              ),
+            ],
           ),
         ],
       ),
     );
   }
 
-  /// ====== DESKTOP VIEW ======
-  Widget _desktopLayout(double screenHeight) {
-    return Row(
-      crossAxisAlignment: CrossAxisAlignment.center,
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        Expanded(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              _title("=> Technical Skills"),
-              const SizedBox(height: 20),
-              ...technicalSkills.map(_progress),
-            ],
-          ),
+  // ---------------- REUSABLE UI ----------------
+  Widget _header(bool mobile) => Column(
+    children: [
+      Text(
+        'Skill & Expertise',
+        style: TextStyle(
+          fontSize: mobile ? 26 : 34,
+          color: Colors.white,
+          fontWeight: FontWeight.bold,
         ),
-        Container(
-          width: 1,
-          margin: const EdgeInsets.symmetric(horizontal: 50),
-          height: 300,
-          color: Colors.white24,
-        ),
-        Expanded(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              _title("=> Tools & Platforms"),
-              const SizedBox(height: 15),
-              Wrap(
-                spacing: 10,
-                runSpacing: 10,
-                children: tools.map(_chip).toList(),
-              ),
-              const SizedBox(height: 30),
-              _title("=> Soft Skills"),
-              const SizedBox(height: 15),
-              Wrap(
-                spacing: 10,
-                runSpacing: 10,
-                children: softSkills.map(_chip).toList(),
-              ),
-            ],
-          ),
-        ),
-      ],
-    );
-  }
+      ),
+      const SizedBox(height: 6),
+      const Text(
+        'Technologies, traits & tools I master',
+        style: TextStyle(color: Colors.white70, fontSize: 14),
+      ),
+    ],
+  );
 
-  /// ====== MOBILE VIEW ======
-  Widget _mobileLayout() {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        _title("Technical Skills"),
-        const SizedBox(height: 18),
-        ...technicalSkills.map(_progress),
-        const SizedBox(height: 30),
-        _title("Tools & Platforms"),
-        const SizedBox(height: 15),
-        Wrap(spacing: 10, runSpacing: 10, children: tools.map(_chip).toList()),
-        const SizedBox(height: 30),
-        _title("Soft Skills"),
-        const SizedBox(height: 18),
-        Wrap(
-          spacing: 10,
-          runSpacing: 10,
-          children: softSkills.map(_chip).toList(),
-        ),
-      ],
-    );
-  }
-
-  Widget _title(String text) => Text(
-    text,
-    style: const TextStyle(
-      color: Colors.white,
-      fontSize: 22,
-      fontWeight: FontWeight.bold,
+  Widget _title(String txt) => Align(
+    alignment: Alignment.centerLeft,
+    child: Text(
+      txt,
+      style: const TextStyle(
+        color: Colors.white,
+        fontSize: 22,
+        fontWeight: FontWeight.bold,
+      ),
     ),
   );
 
@@ -252,92 +299,79 @@ class _SkillsScreenState extends State<SkillsScreen>
           width: 100,
           child: Text(
             skill['name'],
-            style: const TextStyle(color: Colors.white70, fontSize: 14),
+            style: const TextStyle(color: Colors.white70),
           ),
         ),
         Expanded(
-          child: ClipRRect(
-            borderRadius: BorderRadius.circular(10),
-            child: LinearProgressIndicator(
-              value: skill['level'] / 100,
-              minHeight: 7,
-              backgroundColor: Colors.white24,
-              valueColor: const AlwaysStoppedAnimation<Color>(Colors.white),
-            ),
+          child: LinearProgressIndicator(
+            value: skill['level'] / 100,
+            backgroundColor: Colors.white24,
+            color: Colors.white,
+            minHeight: 6,
           ),
         ),
-        const SizedBox(width: 40),
+        const SizedBox(width: 20),
         Text("${skill['level']}%", style: const TextStyle(color: Colors.white)),
       ],
     ),
   );
 
-  Widget _chip(String text) => Container(
+  Widget _mobileProgress(Map skill) => Column(
+    crossAxisAlignment: CrossAxisAlignment.center,
+    children: [
+      Text(skill['name'], style: const TextStyle(color: Colors.white)),
+      const SizedBox(height: 6),
+      ClipRRect(
+        borderRadius: BorderRadius.circular(10),
+        child: LinearProgressIndicator(
+          value: skill['level'] / 100,
+          backgroundColor: Colors.white24,
+          color: Colors.white,
+          minHeight: 6,
+        ),
+      ),
+      const SizedBox(height: 14),
+    ],
+  );
+
+  Widget _chip(String t) => Container(
     padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
     decoration: BoxDecoration(
-      borderRadius: BorderRadius.circular(30),
       border: Border.all(color: Colors.white24),
+      borderRadius: BorderRadius.circular(30),
+    ),
+    child: Text(t, style: const TextStyle(color: Colors.white70)),
+  );
+
+  Widget _mobileChip(String t) => Container(
+    padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+    decoration: BoxDecoration(
       color: Colors.white10,
+      borderRadius: BorderRadius.circular(20),
     ),
-    child: Text(
-      text,
-      style: const TextStyle(color: Colors.white70, fontSize: 12),
-    ),
+    child: Text(t, style: const TextStyle(color: Colors.white)),
   );
 }
 
-/// 🌌 FULL ANIMATED EFFECT BACKGROUND (Same as Project Page)
+// Faster animation
 class FullEffectBackgroundPainter extends CustomPainter {
-  final double value;
-  FullEffectBackgroundPainter(this.value);
+  final double v;
+  FullEffectBackgroundPainter(this.v);
 
   @override
   void paint(Canvas canvas, Size size) {
-    final circlePaint = Paint()
-      ..color = Colors.white.withOpacity(.05)
-      ..style = PaintingStyle.stroke
-      ..strokeWidth = 2;
+    final paint = Paint()..color = Colors.white.withOpacity(.15);
 
-    /// Pulsing circles
-    canvas.drawCircle(
-      Offset(size.width * .85, size.height * .2),
-      140 + math.sin(value * 6.2) * 30,
-      circlePaint,
-    );
-
-    canvas.drawCircle(
-      Offset(size.width * .18, size.height * .82),
-      170 + math.cos(value * 6.2) * 35,
-      circlePaint,
-    );
-
-    /// Diagonal animation lines
-    final linePaint = Paint()
-      ..color = Colors.white.withOpacity(.05)
-      ..strokeWidth = 1.5;
-
-    for (int i = 0; i < 10; i++) {
-      final off = value * size.width * .3;
-      final y = (size.height / 10) * i;
-      final path = Path()
-        ..moveTo(-100 + off, y)
-        ..lineTo(size.width * .5 + off, y + size.height * .3);
-      canvas.drawPath(path, linePaint);
-    }
-
-    /// Floating dots
-    final dotPaint = Paint()..color = Colors.white.withOpacity(.12);
-
-    const spacing = 85;
-    final cols = (size.width / spacing).ceil();
-    final rows = (size.height / spacing).ceil();
-
-    for (int col = 0; col < cols; col++) {
-      for (int row = 0; row < rows; row++) {
-        final x = col * spacing + math.sin(value * 4 + row * .6) * 25;
-        final y = row * spacing + math.cos(value * 4 + col * .6) * 25;
-        final r = 2.3 + math.sin(value * 9 + col + row) * 1.1;
-        canvas.drawCircle(Offset(x, y), r, dotPaint);
+    for (double x = 0; x < size.width; x += 80) {
+      for (double y = 0; y < size.height; y += 80) {
+        canvas.drawCircle(
+          Offset(
+            x + math.sin(v * 6 + y * .4) * 20, // increased speed
+            y + math.cos(v * 6 + x * .4) * 20,
+          ),
+          2.4,
+          paint,
+        );
       }
     }
   }
